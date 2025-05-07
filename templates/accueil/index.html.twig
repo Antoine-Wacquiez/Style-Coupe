@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - STYLE & COUPE {% endblock %}
+
+{% block body %}
+    <!-- Section d'en-tête -->
+    <div class="jumbotron text-center bg-light py-5 rounded shadow-sm">
+        <h1 class="display-4">Bienvenue chez <strong>STYLE & COUPE</strong> !</h1>
+        <p class="lead">Prenez rendez-vous en ligne pour une coupe homme ou femme en toute simplicité.</p>
+        {% if not app.user %}
+            <a href="{{ path('app_register') }}" class="btn btn-primary btn-lg mt-3">Créer un compte</a>
+            <a href="{{ path('app_login') }}" class="btn btn-outline-secondary btn-lg mt-3">Se connecter</a>
+        {% else %}
+            <a href="#" class="btn btn-success btn-lg mt-3">Prendre rendez-vous</a>
+        {% endif %}
+    </div>
+
+    <!-- Section prestations -->
+    <div class="row text-center mt-5">
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Coupe Homme</h5>
+                    <p class="card-text">Tendance, classique ou sur mesure, nos coiffeurs sont à votre écoute.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mt-4 mt-md-0">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Coupe Femme</h5>
+                    <p class="card-text">Brushing, balayage, coiffure de soirée, tout pour sublimer votre style.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mt-4 mt-md-0">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Soins & Barbe</h5>
+                    <p class="card-text">Soins du cuir chevelu, taille de barbe, shampoings relaxants.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section à propos -->
+    <div class="mt-5 p-4 bg-dark text-white rounded shadow-sm">
+        <h2>Qui sommes-nous ?</h2>
+        <p>
+            AntoCoiffure est un salon mixte moderne situé au cœur de la ville. Notre équipe passionnée vous accueille dans une ambiance chaleureuse pour révéler le meilleur de vous-même.
+        </p>
+    </div>
+{% endblock %}
