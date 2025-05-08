@@ -1,51 +1,126 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %} Inscription - STYLE & COUPE {% endblock %}
 
 {% block body %}
-    <h1>Inscription</h1>
+    <!-- Section d'en-tête -->
+    <div class="jumbotron text-center bg-light py-5 rounded shadow-sm">
+        <h1 class="display-4">Bienvenue sur la page de <strong>d'inscription</strong></h1>
+        <p class="lead">Créez votre compte pour prendre rendez-vous et profiter de nos services de coiffure.</p>
+    </div>
 
-    {{ form_start(registrationForm) }}
-        <div class="form-group">
-            <label for="prenom">Prénom</label>
-            {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre prénom'}}) }}
-        </div>
+    <!-- Formulaire d'inscription -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2 class="text-center mb-4">Formulaire d'inscription</h2>
 
-        <div class="form-group">
-            <label for="nom">Nom</label>
-            {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre nom'}}) }}
-        </div>
+                {{ form_start(registrationForm) }}
+                    <div class="form-group mb-3">
+                        <label for="prenom" class="form-label">Prénom</label>
+                        {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre prénom'}}) }}
+                    </div>
 
-        <div class="form-group">
-            <label for="email">Email</label>
-            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre email'}}) }}
-        </div>
+                    <div class="form-group mb-3">
+                        <label for="nom" class="form-label">Nom</label>
+                        {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre nom'}}) }}
+                    </div>
 
+                    <div class="form-group mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre email'}}) }}
+                    </div>
 
-        <div class="form-group">
-            <label for="telephone">Téléphone</label>
-            {{ form_widget(registrationForm.telephone, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre numéro de téléphone'}}) }}
-        </div>
+                    <div class="form-group mb-3">
+                        <label for="telephone" class="form-label">Téléphone</label>
+                        {{ form_widget(registrationForm.telephone, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre numéro de téléphone'}}) }}
+                    </div>
 
-        <div class="form-group">
-            <label for="genre">Genre</label>
-            {{ form_widget(registrationForm.genre, {'attr': {'class': 'form-control'}}) }}
-        </div>
+                    <!-- Genre avec des boutons radio améliorés -->
+                    <div class="form-group mb-3"> 
+                        <label for="genre" class="form-label">Genre</label>     
+                        {{ form_widget(registrationForm.genre, {'attr': {'class': 'form-control'}}) }} 
+                    </div>
 
-        <div class="form-group">
-            <label for="plainPassword">Mot de passe</label>
-            {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre mot de passe'}}) }}
-        </div>
+                    <!-- Mot de passe avec fonctionnalité afficher/masquer -->
+                    <div class="form-group mb-3">
+                        <label for="plainPassword" class="form-label">Mot de passe</label>
+                        <div class="input-group">
+                            {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre mot de passe', 'id': 'plainPassword'}}) }}
+                            <button type="button" class="btn btn-outline-secondary" id="togglePassword" aria-label="Afficher/Masquer le mot de passe">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            <div class="form-check">
-                <label class="form-check-label">
-                    {{ form_widget(registrationForm.agreeTerms) }}
-                    J'accepte les termes et conditions
-                </label>
+                    <script>
+                        document.getElementById('togglePassword').addEventListener('click', function() {
+                            var passwordInput = document.getElementById('plainPassword');
+                            var icon = this.querySelector('i');
+
+                            if (passwordInput.type === 'plainPassword') {
+                                passwordInput.type = 'text';
+                                icon.classList.remove('bi-eye');
+                                icon.classList.add('bi-eye-slash');
+                            } else {
+                                passwordInput.type = 'plainPassword';
+                                icon.classList.remove('bi-eye-slash');
+                                icon.classList.add('bi-eye');
+                            }
+                        });
+                    </script>
+
+                    <div class="form-group mb-4">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                {{ form_widget(registrationForm.agreeTerms) }}
+                                J'accepte les <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal" class="text-decoration-none"><strong>termes et conditions</strong></a>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-warning w-100 shadow-sm">S'inscrire</button>
+                {{ form_end(registrationForm) }}
+
+                <div class="text-center mt-4">
+                    <p>Vous avez déjà un compte ? <a href="{{ path('app_login') }}" class="text-decoration-none"><strong>Connectez-vous ici</strong></a></p>
+                </div>
             </div>
         </div>
+    </div>
 
-        <button type="submit" class="btn btn-primary">S'inscrire</button>
-    {{ form_end(registrationForm) }}
+    <!-- Modal pour les termes et conditions -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="termsModalLabel">Termes et Conditions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6><strong>1. Introduction</strong></h6>
+                    <p>Bienvenue sur le site STYLE & COUPE. En vous inscrivant, vous acceptez de respecter les conditions suivantes. Merci de lire attentivement ce document.</p>
+
+                    <h6><strong>2. Services offerts</strong></h6>
+                    <p>Nous proposons une large gamme de services de coiffure, incluant des coupes de cheveux, des soins capillaires et des coiffures spéciales pour diverses occasions. Les services sont fournis par des professionnels qualifiés.</p>
+
+                    <h6><strong>3. Responsabilité</strong></h6>
+                    <p>Le salon STYLE & COUPE décline toute responsabilité en cas d'incidents ou d'accidents résultant de l'utilisation de nos services. Nous nous efforçons de garantir un environnement sûr et agréable pour nos clients.</p>
+
+                    <h6><strong>4. Confidentialité</strong></h6>
+                    <p>Nous nous engageons à protéger vos données personnelles. Vos informations seront utilisées uniquement dans le cadre de votre inscription et de la gestion de vos rendez-vous. Consultez notre politique de confidentialité pour plus de détails.</p>
+
+                    <h6><strong>5. Modifications</strong></h6>
+                    <p>Nous nous réservons le droit de modifier ces termes et conditions à tout moment. Toute modification sera affichée sur cette page et prendra effet immédiatement après sa publication.</p>
+
+                    <h6><strong>6. Droit applicable</strong></h6>
+                    <p>Les présentes conditions sont régies par le droit français. En cas de litige, vous acceptez de soumettre votre différend aux juridictions compétentes.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

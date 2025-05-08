@@ -3,31 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Style&Coupe{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/logo1.png') }}">
+
+    <!-- Inclure Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Inclure les icônes Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Inclure Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <!-- Inclure Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <style>
+        .prestation-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 1rem;
+            background-color: #fdfdfd;
+        }
+
+        .prestation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            border-radius: 50px;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        .fs-5 {
+        font-size: 1.2rem;
+        }
+
+        {# .navbar-nav .nav-link.active {
+            color: #ffc107 !important;
+            border-bottom: 2px solid #ffc107;
+        } #}
+
+        #loader {
+            transition: opacity 0.4s ease;
+            background-color: #fff;
+        }
+
+        footer a:hover {
+            color: #ffc107 !important;
+            text-decoration: underline;
+        }
+
+    </style>
+
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ path('app_accueil') }}">Style&Coupe</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{{ path('app_accueil') }}">
+               <img src="{{ asset('img/logo1.png') }}" alt="logo" class="img-fluid" style="width: 40px;">  STYLE & COUPE
+               {# <i class="bi bi-scissors"></i> STYLE & COUPE #}
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+
+            <div class="collapse navbar-collapse justify-content-end" id="navContent">
+                <ul class="navbar-nav fw-bold">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_accueil') }}">Accueil</a>
+                        <a class="nav-link{% if app.request.get('_route') == 'app_accueil' %} active{% endif %}" href="{{ path('app_accueil') }}">
+                            <i class="bi bi-house-door-fill text-warning"></i> Accueil
+                        </a>
                     </li>
                     {% if app.user %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+                            <a class="nav-link{% if app.request.get('_route') == 'app_logout' %} active{% endif %}" href="{{ path('app_logout') }}">
+                                <i class="bi bi-box-arrow-right-fill text-warning"></i> Déconnexion
+                            </a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                            <a class="nav-link{% if app.request.get('_route') == 'app_login' %} active{% endif %}" href="{{ path('app_login') }}">
+                                <i class="bi bi-person-fill text-warning"></i> Connexion
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
+                            <a class="nav-link{% if app.request.get('_route') == 'app_register' %} active{% endif %}" href="{{ path('app_register') }}">
+                                <i class="bi bi-person-plus-fill text-warning"></i> Inscription
+                            </a>
                         </li>
                     {% endif %}
                 </ul>
@@ -35,8 +101,154 @@
         </div>
     </nav>
 
+
     <div class="container mt-4">
         {% block body %}{% endblock %}
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light mt-5 pt-5 pb-3 border-top border-secondary">
+        <div class="container">
+            <div class="row gy-4">
+                <!-- Colonne 1 : Infos salon -->
+                <div class="col-md-4">
+                    <h5 class="text-warning mb-3">STYLE & COUPE</h5>
+                    <p class="mb-1"><i class="bi bi-geo-alt-fill text-warning"></i> 12 rue de la Beauté, 75000 Paris</p>
+                    <p class="mb-1"><i class="bi bi-telephone-fill text-warning"></i> 01 23 45 67 89</p>
+                    <p class="mb-0">
+                        <i class="bi bi-envelope-fill text-warning"></i>
+                        <a href="mailto:contact@styleetcoupe.fr" class="text-light text-decoration-underline">contact@styleetcoupe.fr</a>
+                    </p>
+                </div>
+
+                <!-- Colonne 2 : Horaires en design stylé -->
+                <div class="col-md-4">
+                    <h6 class="text-warning mb-3">Horaires d'ouverture</h6>
+                    <ul class="list-unstyled text-light small">
+                        <li class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-1">
+                            <div><i class="bi bi-calendar-week text-warning me-2"></i> Lundi</div>
+                            <div class="text-end text-light">09h00 – 19h00</div>
+                        </li>
+                        <li class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-1">
+                            <div><i class="bi bi-calendar-week text-warning me-2"></i> Mardi</div>
+                            <div class="text-end text-light">09h00 – 19h00</div>
+                        </li>
+                        <li class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-1">
+                            <div><i class="bi bi-calendar-week text-warning me-2"></i> Mercredi</div>
+                            <div class="text-end text-light">09h00 – 19h00</div>
+                        </li>
+                        <li class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-1">
+                            <div><i class="bi bi-calendar-week text-warning me-2"></i> Jeudi</div>
+                            <div class="text-end text-light">09h00 – 19h00</div>
+                        </li>
+                        <li class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-1">
+                            <div><i class="bi bi-calendar-week text-warning me-2"></i> Vendredi</div>
+                            <div class="text-end text-light">09h00 – 19h00</div>
+                        </li>
+                        <li class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-1">
+                            <div><i class="bi bi-calendar-week text-warning me-2"></i> Samedi</div>
+                            <div class="text-end text-light">09h00 – 18h00</div>
+                        </li>
+                        <li class="d-flex justify-content-between align-items-center">
+                            <div><i class="bi bi-calendar-x text-danger me-2"></i> Dimanche</div>
+                            <div class="text-end text-danger fw-bold">Fermé</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Colonne 3 : Liens utiles version pro -->
+                <div class="col-md-4">
+                    <h6 class="text-warning mb-3">Navigation rapide</h6>
+                    {% if app.user %}
+                    <div class="row small">
+                        <div class="col-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <a href="{{ path('app_accueil') }}" class="text-light text-decoration-none d-flex align-items-center">
+                                        <i class="bi bi-house-door-fill text-warning me-2"></i> Accueil
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="{{ path('app_login') }}" class="text-light text-decoration-none d-flex align-items-center">
+                                        <i class="bi bi-box-arrow-in-right text-warning me-2"></i> Déconnexion
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <a href="{{ path('app_mentions') }}" class="text-light text-decoration-none d-flex align-items-center">
+                                        <i class="bi bi-file-earmark-text-fill text-warning me-2"></i> Mentions légales
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                    <div class="row small">
+                        <div class="col-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <a href="{{ path('app_accueil') }}" class="text-light text-decoration-none d-flex align-items-center">
+                                        <i class="bi bi-house-door-fill text-warning me-2"></i> Accueil
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="{{ path('app_login') }}" class="text-light text-decoration-none d-flex align-items-center">
+                                        <i class="bi bi-box-arrow-in-right text-warning me-2"></i> Connexion
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <a href="{{ path('app_register') }}" class="text-light text-decoration-none d-flex align-items-center">
+                                        <i class="bi bi-person-plus-fill text-warning me-2"></i> Inscription
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="{{ path('app_mentions') }}" class="text-light text-decoration-none d-flex align-items-center">
+                                        <i class="bi bi-file-earmark-text-fill text-warning me-2"></i> Mentions légales
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <hr class="border-secondary my-4">
+
+            <div class="text-center small text-secondary">
+                &copy; {{ "now"|date("Y") }} STYLE & COUPE — Tous droits réservés.
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script>
+        window.addEventListener("load", function () {
+            const loader = document.getElementById("loader");
+            if (loader) {
+                loader.style.opacity = 0;
+                setTimeout(() => loader.remove(), 400);
+            }
+        });
+    </script>
+
 </body>
+
+    <!-- Loader -->
+    <div id="loader" class="position-fixed top-0 start-0 w-100 h-100 bg-white d-flex justify-content-center align-items-center" style="z-index: 9999;">
+        <div class="spinner-border text-warning" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Chargement...</span>
+        </div>
+    </div>
+
 </html>

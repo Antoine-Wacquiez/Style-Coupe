@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions légales - STYLE & COUPE{% endblock %}
+
+{% block body %}
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h1 class="mb-4 text-warning border-bottom pb-2">Mentions légales & CGU</h1>
+
+            <div class="mb-5">
+                <h5 class="text-dark">Éditeur du site</h5>
+                <p class="text-muted">
+                    <strong>STYLE & COUPE</strong><br>
+                    12 rue de la Beauté, 75000 Paris<br>
+                    SIRET : 123 456 789 00012<br>
+                    Email : <a href="mailto:contact@styleetcoupe.fr">contact@styleetcoupe.fr</a>
+                </p>
+            </div>
+
+            <div class="mb-5">
+                <h5 class="text-dark">Hébergement</h5>
+                <p class="text-muted">
+                    OVH – 2 rue Kellermann, 59100 Roubaix, France<br>
+                    Téléphone : 1007<br>
+                    Site : <a href="https://www.ovhcloud.com/fr/" target="_blank">www.ovhcloud.com</a>
+                </p>
+            </div>
+
+            <div class="mb-5">
+                <h5 class="text-dark">Propriété intellectuelle</h5>
+                <p class="text-muted">
+                    Tous les éléments du site (textes, images, logo, structure...) sont la propriété exclusive de STYLE & COUPE. Toute reproduction, représentation ou diffusion, même partielle, sans autorisation est interdite.
+                </p>
+            </div>
+
+            <div class="mb-5">
+                <h5 class="text-dark">Protection des données</h5>
+                <p class="text-muted">
+                    Conformément au RGPD, les utilisateurs disposent d’un droit d’accès, de modification et de suppression de leurs données personnelles. Ces demandes peuvent être adressées par email à <a href="mailto:contact@styleetcoupe.fr">contact@styleetcoupe.fr</a>.
+                </p>
+            </div>
+
+            <div class="mb-5">
+                <h5 class="text-dark">Utilisation des cookies</h5>
+                <p class="text-muted">
+                    Le site peut utiliser des cookies pour améliorer l’expérience utilisateur. Vous pouvez configurer votre navigateur pour refuser ou limiter les cookies.
+                </p>
+            </div>
+
+            <div class="mb-5">
+                <h5 class="text-dark">Responsabilités</h5>
+                <p class="text-muted">
+                    STYLE & COUPE s’efforce de fournir des informations fiables, mais ne peut garantir l’exactitude ou la mise à jour permanente. L’utilisateur est seul responsable de l’utilisation faite du contenu du site.
+                </p>
+            </div>
+
+            <div class="mb-4">
+                <h5 class="text-dark">Modification des mentions</h5>
+                <p class="text-muted">
+                    STYLE & COUPE se réserve le droit de modifier les présentes mentions légales à tout moment. L’utilisateur est invité à les consulter régulièrement.
+                </p>
+            </div>
+
+            <p class="text-center text-secondary small mt-5">
+                Dernière mise à jour : {{ "now"|date("d/m/Y") }}
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}
