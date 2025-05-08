@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - STYLE & COUPE{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">📝 Modifier la prestation</h2>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            {{ form_start(form) }}
+
+            <div class="mb-3">
+                <label class="form-label">Nom</label>
+                {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.nom) }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.description) }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Genre concerné</label>
+                {{ form_widget(form.genre, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.genre) }}
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Durée (minutes)</label>
+                    {{ form_widget(form.duree, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.duree) }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Prix (€)</label>
+                    {{ form_widget(form.prix, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.prix) }}
+                </div>
+            </div>
+
+            <div class="form-check form-switch mb-4">
+                {{ form_widget(form.actif, {'attr': {'class': 'form-check-input'}}) }}
+                <label class="form-check-label">Activer la prestation</label>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a href="{{ path('app_prestation_index') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Retour
+                </a>
+                <button type="submit" class="btn btn-warning">
+                    <i class="bi bi-check2-circle"></i> Mettre à jour
+                </button>
+            </div>
+            
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

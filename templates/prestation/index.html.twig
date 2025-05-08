@@ -1,0 +1,169 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - STYLE & COUPE{% endblock %}
+
+{% block body %}
+    <div class="container py-5">
+        <h1 class="text-center mb-4">⚙️ Gestion des Prestations</h1>
+
+        <!-- Section d'action -->
+        <div class="mb-4 d-flex justify-content-between align-items-center">
+            <div>
+                <a href="{{ path('app_prestation_new') }}" class="btn btn-lg btn-warning shadow-sm rounded-pill">
+                    <i class="bi bi-plus-circle me-2"></i> Créer une Prestation
+                </a>
+            </div>
+            <div class="d-flex">
+                <!-- Filtrer les prestations -->
+                <input type="text" class="form-control form-control-lg me-3 rounded-pill" placeholder="Rechercher..." id="prestationSearch">
+            </div>
+        </div>
+
+        <!-- Table responsive -->
+        <div class="table-responsive shadow-lg rounded">
+            <table class="table table-hover table-striped align-middle rounded table-borderless">
+               <thead class="table-dark">
+                    <tr>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th class="text-end">
+                            <span class="d-inline-flex align-items-center">
+                                Genre
+                                <span class="ms-1 sort-icon" id="sortGenre" data-sort="asc">🔽</span>
+                            </span>
+                        </th>
+                        <th class="text-end">
+                            <span class="d-inline-flex align-items-center">
+                                Durée
+                                <span class="ms-1 sort-icon" id="sortDuration" data-sort="asc">🔽</span>
+                            </span>
+                        </th>
+                        <th class="text-end">
+                            <span class="d-inline-flex align-items-center">
+                                Prix
+                                <span class="ms-1 sort-icon" id="sortPrice" data-sort="asc">🔽</span>
+                            </span>
+                        </th>
+                        <th class="text-end">
+                            <span class="d-inline-flex align-items-center">
+                                Actif
+                                <span class="ms-1 sort-icon" id="sortActive" data-sort="asc">🔽</span>
+                            </span>
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="prestationTableBody">
+                    {% for prestation in prestations %}
+                        <tr class="border-bottom rounded-3 hover-row">
+                            <td class="px-3 py-2">{{ prestation.nom }}</td>
+                            <td class="px-3 py-2">{{ prestation.description|length > 50 ? prestation.description|slice(0, 50) ~ '...' : prestation.description }}</td>
+                            <td class="px-3 py-2 text-uppercase">
+                                {% if prestation.genre == 'homme' %}
+                                    <span class="badge bg-primary">Homme</span>
+                                {% elseif prestation.genre == 'femme' %}
+                                    <span class="badge bg-danger">Femme</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Mixte</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-3 py-2 text-center">{{ prestation.duree }}min</td>
+                            <td class="px-3 py-2 text-end">{{ prestation.prix|number_format(2, ',', ' ') }}€</td>
+                            <td class="px-3 py-2">
+                                {% if prestation.actif %}
+                                    <span class="badge bg-success text-white rounded-pill">Actif</span>
+                                {% else %}
+                                    <span class="badge bg-danger text-white rounded-pill">Inactif</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-3 py-2">
+                                <a href="{{ path('app_prestation_show', {'id': prestation.id}) }}" class="btn btn-sm btn-outline-primary shadow-sm rounded-pill" data-bs-toggle="tooltip" title="Voir la prestation">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="{{ path('app_prestation_edit', {'id': prestation.id}) }}" class="btn btn-sm btn-outline-warning shadow-sm rounded-pill" data-bs-toggle="tooltip" title="Modifier la prestation">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form method="post" action="{{ path('app_prestation_delete', {'id': prestation.id}) }}" onsubmit="return confirm('Supprimer cette prestation ?');" style="display:inline;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ prestation.id) }}">
+                                    <button class="btn btn-sm btn-outline-danger shadow-sm rounded-pill" data-bs-toggle="tooltip" title="Supprimer">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="7" class="text-center text-muted">Aucune prestation enregistrée.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Script pour activer les tooltips -->
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
+
+    <!-- Script de recherche dynamique -->
+    <script>
+        document.getElementById('prestationSearch').addEventListener('input', function() {
+            var searchTerm = this.value.toLowerCase();
+            var rows = document.querySelectorAll('#prestationTableBody tr');
+
+            rows.forEach(function(row) {
+                var textContent = row.textContent.toLowerCase();
+                row.style.display = textContent.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    </script>
+
+    <script>
+        document.querySelectorAll('.sort-icon').forEach(function(icon) {
+            icon.addEventListener('click', function() {
+                var column = icon.closest('th').cellIndex;
+                var rows = Array.from(document.querySelectorAll('#prestationTableBody tr'));
+                var ascending = icon.getAttribute('data-sort') === 'asc';
+
+                // Trier les lignes en fonction de la colonne
+                rows.sort(function(a, b) {
+                    var cellA = a.cells[column].textContent.trim();
+                    var cellB = b.cells[column].textContent.trim();
+
+                    // Comparaison spéciale pour les colonnes "Prix" et "Durée"
+                    if (column === 4) { // Prix
+                        cellA = parseFloat(cellA.replace('€', '').replace(' ', '').trim());
+                        cellB = parseFloat(cellB.replace('€', '').replace(' ', '').trim());
+                    } else if (column === 3) { // Durée
+                        cellA = parseInt(cellA.replace('min', '').trim());
+                        cellB = parseInt(cellB.replace('min', '').trim());
+                    }
+
+                    // Comparaison spéciale pour la colonne "Actif"
+                    if (column === 5) { // Actif (Vrai/Faux)
+                        cellA = cellA === "Actif" ? 1 : 0;
+                        cellB = cellB === "Actif" ? 1 : 0;
+                    }
+
+                    if (ascending) {
+                        return cellA > cellB ? 1 : (cellA < cellB ? -1 : 0);
+                    } else {
+                        return cellA < cellB ? 1 : (cellA > cellB ? -1 : 0);
+                    }
+                });
+
+                // Réorganiser les lignes dans la table
+                rows.forEach(function(row) {
+                    document.querySelector('#prestationTableBody').appendChild(row);
+                });
+
+                // Inverser l'ordre pour le prochain clic
+                icon.setAttribute('data-sort', ascending ? 'desc' : 'asc');
+            });
+        });
+    </script>
+
+{% endblock %}

@@ -16,10 +16,12 @@
                 <h2 class="text-center mb-4">Se connecter</h2>
 
                 {% if error %}
-                    <div class="alert alert-danger">
-                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>⚠️ Erreur, adresse e-mail ou mot de passe incorrect.</strong> 
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endif %}
+
 
                 <form action="{{ path('app_login') }}" method="post">
                     <div class="form-group mb-3">

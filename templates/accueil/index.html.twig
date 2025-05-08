@@ -3,29 +3,95 @@
 {% block title %} STYLE & COUPE {% endblock %}
 
 {% block body %}
-    <!-- Section d'en-tête -->
-    <div class="jumbotron text-center bg-light py-5 rounded shadow-sm">
+   <!-- Section d'en-tête avec image de fond -->
+    <div class="hero-banner position-relative text-center text-white py-5">
+        <div class="overlay position-absolute top-0 start-0 w-100 h-100"></div>
 
-    
-    {% if app.user %}
-        <h1 class="display-4">Bienvenue <strong>{{ app.user.prenom }} {{ app.user.nom }}</strong> !</h1>
-    {% else %}
-        <h1 class="display-4">Bienvenue chez <strong>STYLE & COUPE</strong> !</h1>
-    {% endif %}
-        <p class="lead">Prenez rendez-vous en ligne pour une coupe homme ou femme en toute simplicité.</p>
-        {% if not app.user %}
-            <a href="{{ path('app_register') }}" class="btn btn-warning btn-lg mt-3 me-2 shadow-sm">
-                <i class="bi bi-person-plus"></i> Créer un compte
-            </a>
-            <a href="{{ path('app_login') }}" class="btn btn-outline-dark btn-lg mt-3 shadow-sm">
-                <i class="bi bi-box-arrow-in-right"></i> Se connecter
-            </a>
-        {% else %}
-            <a href="#" class="btn btn-warning btn-lg mt-3">Prendre rendez-vous</a>
-        {% endif %}
+        <div class="container position-relative z-1">
+            {# {% if app.user %}
+                <h1 class="display-4">Bienvenue <strong>{{ app.user.prenom }} {{ app.user.nom }}</strong> !</h1>
+            {% else %}
+                <h1 class="display-4">Bienvenue chez <strong>STYLE & COUPE</strong> !</h1>
+            {% endif %}
+            <p class="lead">Prenez rendez-vous en ligne pour une coupe homme ou femme en toute simplicité.</p> #}
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <h1 class="display-4">Bienvenue <strong>Administrateur {{ app.user.prenom }}</strong></h1>
+                <p class="lead">Accédez à votre espace d'administration ci-dessous.</p>
+            {% elseif app.user %}
+                <h1 class="display-4">Bienvenue <strong>{{ app.user.prenom }} {{ app.user.nom }}</strong> !</h1>
+                <p class="lead">Prenez rendez-vous en ligne pour une coupe homme ou femme en toute simplicité.</p>
+            {% else %}
+                <h1 class="display-4">Bienvenue chez <strong>STYLE & COUPE</strong> !</h1>
+                <p class="lead">Prenez rendez-vous en ligne pour une coupe homme ou femme en toute simplicité.</p>
+                 <a href="{{ path('app_register') }}" class="btn btn-warning btn-lg mt-3 me-2 shadow-sm">
+                    <i class="bi bi-person-plus"></i> Créer un compte
+                </a>
+                <a href="{{ path('app_login') }}" class="btn btn-outline-light btn-lg mt-3 shadow-sm">
+                    <i class="bi bi-box-arrow-in-right"></i> Se connecter
+                </a>
+            {% endif %}
+
+            {# {% if not app.user %}
+                <a href="{{ path('app_register') }}" class="btn btn-warning btn-lg mt-3 me-2 shadow-sm">
+                    <i class="bi bi-person-plus"></i> Créer un compte
+                </a>
+                <a href="{{ path('app_login') }}" class="btn btn-outline-light btn-lg mt-3 shadow-sm">
+                    <i class="bi bi-box-arrow-in-right"></i> Se connecter
+                </a>
+            {% else %}
+                <a href="#" class="btn btn-warning btn-lg mt-3">Prendre rendez-vous</a>
+            {% endif %} #}
+        </div>
     </div>
 
-    <!-- Section prestations -->
+    <!-- Section prestations Admin -->
+
+    {% if is_granted('ROLE_ADMIN') %}
+    
+    <section class="my-5">
+    <h2 class="text-center mb-4">Espace administration</h2>
+    <div class="row g-4">
+        <!-- Prestations -->
+        <div class="col-12 col-md-4">
+            <div class="card prestation-card border-0 shadow h-100 text-center p-4">
+                <div class="card-body">
+                    <i class="bi bi-scissors text-warning display-4 mb-3"></i>
+                    <h5 class="card-title">Prestations</h5>
+                    <p class="card-text">{{ totalPrestations }} enregistrée(s)</p>
+                    <a href="{{ path('app_prestation_index') }}" class="btn btn-outline-warning btn-sm mt-2">Gérer</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Utilisateurs -->
+        <div class="col-12 col-md-4">
+            <div class="card prestation-card border-0 shadow h-100 text-center p-4">
+                <div class="card-body">
+                    <i class="bi bi-people-fill text-warning display-4 mb-3"></i>
+                    <h5 class="card-title">Utilisateurs</h5>
+                    <p class="card-text">{{ totalUsers }} inscrit(s)</p>
+                    <a href="{{ path('app_user_index') }}" class="btn btn-outline-warning btn-sm mt-2">Gérer</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rendez-vous -->
+        <div class="col-12 col-md-4">
+            <div class="card prestation-card border-0 shadow h-100 text-center p-4">
+                <div class="card-body">
+                    <i class="bi bi-calendar2-week text-warning display-4 mb-3"></i>
+                    <h5 class="card-title">Rendez-vous</h5>
+                    <p class="card-text">Fonctionnalité à venir</p>
+                    <a href="#" class="btn btn-outline-warning btn-sm mt-2 disabled">À venir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    {% else %}
+
     <!-- Section prestations améliorée -->
     <section class="my-5">
         <h2 class="text-center mb-4">Nos prestations</h2>
@@ -93,6 +159,7 @@
             </div>
         </div>
     </section>
+    {% endif %}
 
 
 {% endblock %}

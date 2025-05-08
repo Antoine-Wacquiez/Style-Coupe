@@ -1,0 +1,132 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Gestion des Utilisateurs{% endblock %}
+
+{% block body %}
+    <div class="container py-5">
+        <h1 class="text-center mb-4">⚙️ Gestion des Utilisateurs</h1>
+
+        <!-- Section d'action -->
+        <div class="mb-4 d-flex justify-content-between align-items-center">
+            <div class="d-flex">
+                <!-- Filtrer les utilisateurs -->
+                <input type="text" class="form-control form-control-lg me-3 rounded-pill" placeholder="Rechercher..." id="userSearch">
+            </div>
+        </div>
+
+        <!-- Table responsive -->
+        <div class="table-responsive shadow-lg rounded">
+            <table class="table table-hover table-striped align-middle rounded table-borderless">
+                <thead class="table-dark">
+                    <tr>
+                        <th>
+                            <span class="d-inline-flex align-items-center">
+                                Nom
+                                <span class="ms-1 sort-icon" id="sortName" data-sort="asc">🔽</span>
+                            </span>
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th class="text-end">
+                            Rôle
+                            <span class="ms-1 sort-icon" id="sortRole" data-sort="asc">🔽</span>
+                        </th>
+                        <th class="text-end">
+                            Téléphone
+                        </th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="userTableBody">
+                    {% for user in users %}
+                        <tr class="border-bottom rounded-3 hover-row">
+                            <td class="px-3 py-2">{{ user.prenom }} {{ user.nom }}</td>
+                            <td class="px-3 py-2">{{ user.email }}</td>
+                            <td class="px-3 py-2 text-center">
+                                {% if user.roles|length > 0 %}
+                                    <span class="badge bg-secondary">{{ user.roles|first }}</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Aucun rôle</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-3 py-2 text-end">{{ user.telephone }}</td>
+                            <td class="px-3 py-2 text-center">
+                                <form method="post" action="{{ path('app_user_delete', {'id': user.id}) }}" onsubmit="return confirm('Supprimer cet utilisateur ?');" style="display:inline;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                                    <button class="btn btn-sm btn-outline-danger shadow-sm rounded-pill" data-bs-toggle="tooltip" title="Supprimer">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                                <a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-sm btn-outline-primary shadow-sm rounded-pill ms-2" data-bs-toggle="tooltip" title="Voir le Coiffeur">
+                                    <i class="bi bi-person"></i> Voir l'utilisateur
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="5" class="text-center text-muted">Aucun utilisateur enregistré.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Script pour activer les tooltips -->
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
+
+    <!-- Script de recherche dynamique -->
+    <script>
+        document.getElementById('userSearch').addEventListener('input', function() {
+            var searchTerm = this.value.toLowerCase();
+            var rows = document.querySelectorAll('#userTableBody tr');
+
+            rows.forEach(function(row) {
+                var textContent = row.textContent.toLowerCase();
+                row.style.display = textContent.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    </script>
+
+    <!-- Script de tri des colonnes -->
+    <script>
+        document.querySelectorAll('.sort-icon').forEach(function(icon) {
+            icon.addEventListener('click', function() {
+                var column = icon.closest('th').cellIndex;
+                var rows = Array.from(document.querySelectorAll('#userTableBody tr'));
+                var ascending = icon.getAttribute('data-sort') === 'asc';
+
+                // Trier les lignes en fonction de la colonne
+                rows.sort(function(a, b) {
+                    var cellA = a.cells[column].textContent.trim();
+                    var cellB = b.cells[column].textContent.trim();
+
+                    if (column === 2) { // Rôle
+                        cellA = cellA || "";
+                        cellB = cellB || "";
+                    }
+
+                    if (ascending) {
+                        return cellA > cellB ? 1 : (cellA < cellB ? -1 : 0);
+                    } else {
+                        return cellA < cellB ? 1 : (cellA > cellB ? -1 : 0);
+                    }
+                });
+
+                // Réorganiser les lignes dans la table
+                rows.forEach(function(row) {
+                    document.querySelector('#userTableBody').appendChild(row);
+                });
+
+                // Inverser l'ordre pour le prochain clic
+                icon.setAttribute('data-sort', ascending ? 'desc' : 'asc');
+            });
+        });
+    </script>
+
+{% endblock %}
