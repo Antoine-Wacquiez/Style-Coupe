@@ -41,13 +41,13 @@
             font-family: 'poppins', sans-serif;
         }
 
-        .prestation-card {
+        .card-body {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border-radius: 1rem;
             background-color: #fdfdfd;
         }
 
-        .prestation-card:hover {
+        .card-body:hover {
             transform: translateY(-5px);
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
         }
@@ -62,11 +62,6 @@
         font-size: 1.2rem;
         }
 
-        {# .navbar-nav .nav-link.active {
-            color: #ffc107 !important;
-            border-bottom: 2px solid #ffc107;
-        } #}
-
         #loader {
             transition: opacity 0.4s ease;
             background-color: #fff;
@@ -78,7 +73,7 @@
         }
 
         .hero-banner {
-            background: url('{{ asset("img/salonbanniere.jpg") }}') center center / cover no-repeat;
+            background: url('{{ asset("img/salonbann.jpg") }}') center center / cover no-repeat;
             min-height: 330px;
         }
 
@@ -92,15 +87,15 @@
             position: relative;
         }
 
-    .card.bg-gradient:hover {
-        transform: translateY(-5px);
-        transition: 0.3s ease;
-        box-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
-    }
-
+        .card.bg-gradient:hover {
+            transform: translateY(-5px);
+            transition: 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
+        }
     </style>
 
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
@@ -112,7 +107,6 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse justify-content-end" id="navContent">
                 <ul class="navbar-nav fw-bold">
                     <li class="nav-item">
@@ -141,7 +135,6 @@
             </div>
         </div>
     </nav>
-
 
     <div class="container mt-4">
         {% block body %}{% endblock %}
@@ -272,8 +265,6 @@
         </div>
     </footer>
     {% endif %}
-
-
 
     <script>
         window.addEventListener("load", function () {

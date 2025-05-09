@@ -6,43 +6,24 @@
    <!-- Section d'en-tête avec image de fond -->
     <div class="hero-banner position-relative text-center text-white py-5">
         <div class="overlay position-absolute top-0 start-0 w-100 h-100"></div>
-
-        <div class="container position-relative z-1">
-            {# {% if app.user %}
-                <h1 class="display-4">Bienvenue <strong>{{ app.user.prenom }} {{ app.user.nom }}</strong> !</h1>
-            {% else %}
-                <h1 class="display-4">Bienvenue chez <strong>STYLE & COUPE</strong> !</h1>
-            {% endif %}
-            <p class="lead">Prenez rendez-vous en ligne pour une coupe homme ou femme en toute simplicité.</p> #}
-
-            {% if is_granted('ROLE_ADMIN') %}
-                <h1 class="display-4">Bienvenue <strong>Administrateur {{ app.user.prenom }}</strong></h1>
-                <p class="lead">Accédez à votre espace d'administration ci-dessous.</p>
-            {% elseif app.user %}
-                <h1 class="display-4">Bienvenue <strong>{{ app.user.prenom }} {{ app.user.nom }}</strong> !</h1>
-                <p class="lead">Prenez rendez-vous en ligne pour une coupe homme ou femme en toute simplicité.</p>
-            {% else %}
-                <h1 class="display-4">Bienvenue chez <strong>STYLE & COUPE</strong> !</h1>
-                <p class="lead">Prenez rendez-vous en ligne pour une coupe homme ou femme en toute simplicité.</p>
-                 <a href="{{ path('app_register') }}" class="btn btn-warning btn-lg mt-3 me-2 shadow-sm">
-                    <i class="bi bi-person-plus"></i> Créer un compte
-                </a>
-                <a href="{{ path('app_login') }}" class="btn btn-outline-light btn-lg mt-3 shadow-sm">
-                    <i class="bi bi-box-arrow-in-right"></i> Se connecter
-                </a>
-            {% endif %}
-
-            {# {% if not app.user %}
-                <a href="{{ path('app_register') }}" class="btn btn-warning btn-lg mt-3 me-2 shadow-sm">
-                    <i class="bi bi-person-plus"></i> Créer un compte
-                </a>
-                <a href="{{ path('app_login') }}" class="btn btn-outline-light btn-lg mt-3 shadow-sm">
-                    <i class="bi bi-box-arrow-in-right"></i> Se connecter
-                </a>
-            {% else %}
-                <a href="#" class="btn btn-warning btn-lg mt-3">Prendre rendez-vous</a>
-            {% endif %} #}
-        </div>
+            <div class="container position-relative z-1">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <h1 class="display-4">Bienvenue <strong>Administrateur {{ app.user.prenom }}</strong></h1>
+                    <p class="lead">Accédez à votre espace d'administration ci-dessous.</p>
+                {% elseif app.user %}
+                    <h1 class="display-4">Bienvenue <strong>{{ app.user.prenom }} {{ app.user.nom }}</strong> !</h1>
+                    <p class="lead">Prenez rendez-vous en ligne pour une coupe homme ou femme en toute simplicité.</p>
+                {% else %}
+                    <h1 class="display-4">Bienvenue chez <strong>STYLE & COUPE</strong> !</h1>
+                    <p class="lead">Prenez rendez-vous en ligne pour une coupe homme ou femme en toute simplicité.</p>
+                    <a href="{{ path('app_register') }}" class="btn btn-warning btn-lg mt-3 me-2 shadow-sm">
+                        <i class="bi bi-person-plus"></i> Créer un compte
+                    </a>
+                    <a href="{{ path('app_login') }}" class="btn btn-outline-light btn-lg mt-3 shadow-sm">
+                        <i class="bi bi-box-arrow-in-right"></i> Se connecter
+                    </a>
+                {% endif %}
+            </div>
     </div>
 
     <!-- Section prestations Admin -->
@@ -51,87 +32,146 @@
     
     <section class="my-5">
     <h2 class="text-center mb-4">Espace administration</h2>
-    <div class="row g-4">
-        <!-- Prestations -->
-        <div class="col-12 col-md-4">
-            <div class="card prestation-card border-0 shadow h-100 text-center p-4">
-                <div class="card-body">
-                    <i class="bi bi-scissors text-warning display-4 mb-3"></i>
-                    <h5 class="card-title">Prestations</h5>
-                    <p class="card-text">{{ totalPrestations }} enregistrée(s)</p>
-                    <a href="{{ path('app_prestation_index') }}" class="btn btn-outline-warning btn-sm mt-2">Gérer</a>
+        <div class="row g-4">
+            <!-- Prestations -->
+            <div class="col-12 col-md-4">
+                <div class="card prestation-card border-0 shadow h-100 text-center p-4">
+                    <div class="card-body">
+                        <i class="bi bi-scissors text-warning display-4 mb-3"></i>
+                        <h5 class="card-title">Prestations</h5>
+                        <p class="card-text">{{ totalPrestations }} enregistrée(s)</p>
+                        <a href="{{ path('app_prestation_index') }}" class="btn btn-outline-warning btn-sm mt-2">Gérer</a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Utilisateurs -->
-        <div class="col-12 col-md-4">
-            <div class="card prestation-card border-0 shadow h-100 text-center p-4">
-                <div class="card-body">
-                    <i class="bi bi-people-fill text-warning display-4 mb-3"></i>
-                    <h5 class="card-title">Utilisateurs</h5>
-                    <p class="card-text">{{ totalUsers }} inscrit(s)</p>
-                    <a href="{{ path('app_user_index') }}" class="btn btn-outline-warning btn-sm mt-2">Gérer</a>
+            <!-- Utilisateurs -->
+            <div class="col-12 col-md-4">
+                <div class="card prestation-card border-0 shadow h-100 text-center p-4">
+                    <div class="card-body">
+                        <i class="bi bi-people-fill text-warning display-4 mb-3"></i>
+                        <h5 class="card-title">Utilisateurs</h5>
+                        <p class="card-text">{{ totalUsers }} inscrit(s)</p>
+                        <a href="{{ path('app_user_index') }}" class="btn btn-outline-warning btn-sm mt-2">Gérer</a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Rendez-vous -->
-        <div class="col-12 col-md-4">
-            <div class="card prestation-card border-0 shadow h-100 text-center p-4">
-                <div class="card-body">
-                    <i class="bi bi-calendar2-week text-warning display-4 mb-3"></i>
-                    <h5 class="card-title">Rendez-vous</h5>
-                    <p class="card-text">Fonctionnalité à venir</p>
-                    <a href="#" class="btn btn-outline-warning btn-sm mt-2 disabled">À venir</a>
+            <!-- Rendez-vous -->
+            <div class="col-12 col-md-4">
+                <div class="card prestation-card border-0 shadow h-100 text-center p-4">
+                    <div class="card-body">
+                        <i class="bi bi-calendar2-week text-warning display-4 mb-3"></i>
+                        <h5 class="card-title">Rendez-vous</h5>
+                        <p class="card-text">Fonctionnalité à venir</p>
+                        <a href="#" class="btn btn-outline-warning btn-sm mt-2 disabled">À venir</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     {% else %}
 
     <!-- Section prestations améliorée -->
     <section class="my-5">
-        <h2 class="text-center mb-4">Nos prestations</h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card prestation-card border-0 shadow h-100 text-center p-3">
-                    <div class="card-body">
-                        <i class="bi bi-person-fill text-info display-4 mb-3"></i>
-                        <h5 class="card-title">Coupe Homme</h5>
-                        <p class="card-text">Tendance, classique ou sur mesure, nos coiffeurs sont à votre écoute.</p>
-                    </div>
-                </div>
+        <div class="container">
+            <h2 class="text-center mb-4">Nos Prestations</h2>
+
+            <!-- Barre de filtre -->
+            <div class="d-flex flex-wrap justify-content-center align-items-center mb-4 gap-2">
+                <button class="btn btn-outline-dark btn-sm filter-btn active" data-filter="all">Tous</button>
+                <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="homme">Homme</button>
+                <button class="btn btn-outline-danger btn-sm filter-btn" data-filter="femme">Femme</button>
+                <button class="btn btn-outline-warning btn-sm filter-btn" data-filter="barbe">Barbe / Soins</button>
+                <button class="btn btn-outline-info btn-sm filter-btn" data-filter="couleur">Couleur / Mèches</button>
+                <input type="text" id="searchInput" class="form-control form-control-sm ms-2" placeholder="Rechercher..." style="max-width: 200px;">
             </div>
-            <div class="col-md-4">
-                <div class="card prestation-card border-0 shadow h-100 text-center p-3">
-                    <div class="card-body">
-                        <i class="bi bi-person-fill-add text-danger display-4 mb-3"></i>
-                        <h5 class="card-title">Coupe Femme</h5>
-                        <p class="card-text">Brushing, balayage, coiffure de soirée, tout pour sublimer votre style.</p>
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                {% for prestation in prestations %}
+                    {% set type = 'autre' %}
+                    {% if prestation.nom matches '/homme/i' %}
+                        {% set type = 'homme' %}
+                    {% elseif prestation.nom matches '/femme/i' %}
+                        {% set type = 'femme' %}
+                    {% elseif prestation.nom matches '/barbe|soin/i' %}
+                        {% set type = 'barbe' %}
+                    {% elseif prestation.nom matches '/couleur|m[èe]ches|coloration/i' %}
+                        {% set type = 'couleur' %}
+                    {% endif %}
+
+                    <div class="col prestation-item" data-type="{{ type }}" data-nom="{{ prestation.nom|lower }}">
+                        <div class="card border-0 shadow-sm h-100 text-center p-3 d-flex flex-column">
+                            <div class="card-body">
+                                {% if type == 'homme' %}
+                                    <i class="bi bi-person text-primary fs-2 mb-2"></i>
+                                {% elseif type == 'femme' %}
+                                    <i class="bi bi-person-standing-dress text-danger fs-2 mb-2"></i>
+                                {% elseif type == 'barbe' %}
+                                    <i class="bi bi-stars text-warning fs-2 mb-2"></i>
+                                {% elseif type == 'couleur' %}
+                                    <i class="bi bi-palette text-info fs-2 mb-2"></i>
+                                {% else %}
+                                    <i class="bi bi-scissors text-secondary fs-2 mb-2"></i>
+                                {% endif %}
+
+                                <h5 class="card-title mt-2">{{ prestation.nom }}</h5>
+                                <p class="card-text small">{{ prestation.description }}</p>
+                                <p class="fw-semibold text-muted mb-3">{{ prestation.prix }} €</p>
+
+                                {% if app.user %}
+                                    <a {#href="{{ path('app_reservation_new', {'prestationId': prestation.id}) }}"#} class="btn btn-outline-primary btn-sm">
+                                        Réserver
+                                    </a>
+                                {% else %}
+                                    <p class="small text-muted mb-0 mt-auto">
+                                        🔒 <a href="{{ path('app_login') }}" class="text-decoration-none">Connectez-vous</a> pour réserver
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+
                     </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card prestation-card border-0 shadow h-100 text-center p-3">
-                    <div class="card-body">
-                        <i class="bi bi-brightness-high text-warning display-4 mb-3"></i>
-                        <h5 class="card-title">Soins & Barbe</h5>
-                        <p class="card-text">Soins du cuir chevelu, taille de barbe, shampoings relaxants.</p>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
 
-        <div class="text-center mt-4">
-            <a {# href="{{ path('app_prestations') }}"#} class="btn btn-outline-dark btn-lg">
-                <i class="bi bi-scissors"></i> Voir toutes les prestations
-            </a>
-        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const buttons = document.querySelectorAll('.filter-btn');
+                const items = document.querySelectorAll('.prestation-item');
+                const searchInput = document.getElementById('searchInput');
+
+                buttons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const filter = button.dataset.filter;
+
+                        buttons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+
+                        const keyword = searchInput.value.trim().toLowerCase();
+                        items.forEach(item => {
+                            const matchesType = filter === 'all' || item.dataset.type === filter;
+                            const matchesSearch = item.dataset.nom.includes(keyword);
+                            item.style.display = matchesType && matchesSearch ? 'block' : 'none';
+                        });
+                    });
+                });
+
+                searchInput.addEventListener('input', () => {
+                    const filter = document.querySelector('.filter-btn.active').dataset.filter;
+                    const keyword = searchInput.value.trim().toLowerCase();
+
+                    items.forEach(item => {
+                        const matchesType = filter === 'all' || item.dataset.type === filter;
+                        const matchesSearch = item.dataset.nom.includes(keyword);
+                        item.style.display = matchesType && matchesSearch ? 'block' : 'none';
+                    });
+                });
+            });
+        </script>
     </section>
-
 
    <!-- Section Qui sommes-nous améliorée -->
     <section class="py-5 position-relative overflow-hidden">
@@ -159,7 +199,7 @@
             </div>
         </div>
     </section>
-    {% endif %}
 
+{% endif %}
 
 {% endblock %}

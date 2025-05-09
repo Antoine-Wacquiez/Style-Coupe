@@ -17,9 +17,12 @@ final class AccueilController extends AbstractController
         UserRepository $userRepository,
         // RendezVousRepository $rendezVousRepository
     ): Response {
+        $prestations = $prestationRepository->findAll();
+
         return $this->render('accueil/index.html.twig', [
-            'totalPrestations' => $prestationRepository->count([]),
+            'totalPrestations' => count($prestations),
             'totalUsers' => $userRepository->count([]),
+            'prestations' => $prestations,
             // 'totalRdv' => $rendezVousRepository->count([]),
         ]);
     }
