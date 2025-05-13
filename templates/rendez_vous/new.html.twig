@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un Rendez-vous{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Créer un Rendez-vous</h2>
+
+    {{ form_start(form) }}
+
+    <div class="mb-3">
+        <label class="form-label">Date et heure</label>
+        {{ form_widget(form.dateHeure, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.dateHeure) }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Coiffeur</label>
+        {{ form_widget(form.coiffeur, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.coiffeur) }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Prestation</label>
+        <div class="row">
+            {% for prestation in prestations %}
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ prestation.nom }}</h5>
+                            <p class="card-text">{{ prestation.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {{ form_widget(form.prestation, {'attr': {'class': 'form-select'}}) }}
+        {{ form_errors(form.prestation) }}
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <a href="{{ path('app_rendez_vous_index') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Retour
+        </a>
+        <button type="submit" class="btn btn-warning">
+            <i class="bi bi-check2-circle"></i> Valider
+        </button>
+    </div>
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}

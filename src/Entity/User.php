@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -44,6 +46,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $telephone = null;
+
+    /**
+     * @var Collection<int, RendezVous>
+     */
+    #[ORM\OneToMany(targetEntity: RendezVous::class, mappedBy: 'client')]
+    private Collection $rendezVouses;
+
+    /**
+     * @var Collection<int, RendezVous>
+     */
+    #[ORM\OneToMany(targetEntity: RendezVous::class, mappedBy: 'coiffeur')]
+    private Collection $rdvcoiffeur;
+
+    public function __construct()
+    {
+        $this->rendezVouses = new ArrayCollection();
+        $this->rdvcoiffeur = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -176,6 +196,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTelephone(string $telephone): static
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RendezVous>
+     */
+    public function getRendezVouses(): Collection
+    {
+        return $this->rendezVouses;
+    }
+
+    public function addRendezVouse(RendezVous $rendezVouse): static
+    {
+        if (!$this->rendezVouses->contains($rendezVouse)) {
+            $this->rendezVouses->add($rendezVouse);
+            $rendezVouse->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRendezVouse(RendezVous $rendezVouse): static
+    {
+        if ($this->rendezVouses->removeElement($rendezVouse)) {
+            // set the owning side to null (unless already changed)
+            if ($rendezVouse->getClient() === $this) {
+                $rendezVouse->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RendezVous>
+     */
+    public function getRdvcoiffeur(): Collection
+    {
+        return $this->rdvcoiffeur;
+    }
+
+    public function addRdvcoiffeur(RendezVous $rdvcoiffeur): static
+    {
+        if (!$this->rdvcoiffeur->contains($rdvcoiffeur)) {
+            $this->rdvcoiffeur->add($rdvcoiffeur);
+            $rdvcoiffeur->setCoiffeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRdvcoiffeur(RendezVous $rdvcoiffeur): static
+    {
+        if ($this->rdvcoiffeur->removeElement($rdvcoiffeur)) {
+            // set the owning side to null (unless already changed)
+            if ($rdvcoiffeur->getCoiffeur() === $this) {
+                $rdvcoiffeur->setCoiffeur(null);
+            }
+        }
 
         return $this;
     }

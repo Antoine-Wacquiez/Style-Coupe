@@ -33,6 +33,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
+    // Dans le repository UserRepository
+    public function findCoiffeurs()
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%"ROLE_COIFFEUR"%');
+    }
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */
